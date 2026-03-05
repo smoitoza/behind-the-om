@@ -1,54 +1,37 @@
 <!DOCTYPE html>
 <html>
-<head><title>Debug</title></head>
+<head><title>Debug v2</title></head>
 <body>
+<div id="view-home" class="view active">
+  <input type="text" id="search-input" value="">
+  <div class="studios-grid" id="studios-grid"></div>
+</div>
 <pre id="out">Loading...</pre>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-var out = document.getElementById('out');
-var log = '';
-function addLog(msg) { log += msg + '\n'; out.textContent = log; }
-
-addLog('1. Script running');
-addLog('2. window.supabase exists: ' + !!window.supabase);
-addLog('3. typeof supabase.createClient: ' + (window.supabase ? typeof window.supabase.createClient : 'N/A'));
-
-try {
-  var sb = window.supabase.createClient('https://qmyvvtdijdkwahcpersk.supabase.co', 'sb_publishable_zkLTUgyWSMZKeCTIyJgsPw_IN11nAPN');
-  addLog('4. createClient succeeded: ' + !!sb);
-} catch(e) {
-  addLog('4. createClient ERROR: ' + e.message);
-}
-
-addLog('5. document.readyState: ' + document.readyState);
+window.onerror = function(msg, src, line, col, err) {
+  var out = document.getElementById('out');
+  out.textContent += '\nGLOBAL ERROR: ' + msg + ' at line ' + line + ':' + col + ' in ' + src;
+  if (err && err.stack) out.textContent += '\nStack: ' + err.stack;
+  return false;
+};
+document.getElementById('out').textContent = 'Error handler set. Loading app.js...\n';
 </script>
 <script src="./app.js"></script>
 <script>
-try {
-  addLog('6. app.js loaded');
-  addLog('7. typeof STUDIOS: ' + typeof STUDIOS);
-  addLog('8. STUDIOS.length: ' + (typeof STUDIOS !== 'undefined' ? STUDIOS.length : 'undef'));
-  addLog('9. typeof renderStudios: ' + typeof renderStudios);
-  addLog('10. typeof reviews: ' + typeof reviews);
-  addLog('11. reviews.length: ' + (typeof reviews !== 'undefined' ? reviews.length : 'undef'));
-  addLog('12. studios-grid exists: ' + !!document.getElementById('studios-grid'));
-  addLog('13. search-input exists: ' + !!document.getElementById('search-input'));
-  addLog('14. currentView: ' + (typeof currentView !== 'undefined' ? currentView : 'undef'));
-  
-  // Try calling renderStudios manually
-  if (typeof renderStudios === 'function' && document.getElementById('studios-grid')) {
-    try {
-      renderStudios();
-      addLog('15. renderStudios() called successfully');
-      addLog('16. grid innerHTML length: ' + document.getElementById('studios-grid').innerHTML.length);
-    } catch(e) {
-      addLog('15. renderStudios() ERROR: ' + e.message + ' at ' + e.stack);
-    }
-  } else {
-    addLog('15. Cannot call renderStudios - missing function or grid element');
-  }
-} catch(e) {
-  addLog('FATAL ERROR: ' + e.message + '\n' + e.stack);
+var out = document.getElementById('out');
+out.textContent += 'app.js finished loading.\n';
+out.textContent += 'typeof STUDIOS: ' + typeof STUDIOS + '\n';
+out.textContent += 'typeof renderStudios: ' + typeof renderStudios + '\n';
+
+if (typeof STUDIOS !== 'undefined') {
+  out.textContent += 'STUDIOS.length: ' + STUDIOS.length + '\n';
+} else {
+  out.textContent += 'STUDIOS is undefined - app.js likely threw an error during execution\n';
+}
+
+if (document.getElementById('studios-grid')) {
+  out.textContent += 'Grid innerHTML length: ' + document.getElementById('studios-grid').innerHTML.length + '\n';
 }
 </script>
 </body>
