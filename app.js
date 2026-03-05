@@ -331,29 +331,6 @@ function renderStudioDetail(studioId) {
     </div>
   ` : '';
 
-  // Average heat by class type summary
-  const heatByClass = getAvgHeatByClass(studioId);
-  const heatSummaryHTML = Object.keys(heatByClass).length > 0 ? `
-    <div class="heat-summary">
-      <h3 class="heat-summary-title">Avg Perceived Heat by Class</h3>
-      <div class="heat-summary-grid">
-        ${Object.keys(heatByClass).map(ctId => {
-          const ct = CLASS_TYPES.find(c => c.id === ctId);
-          const h = heatByClass[ctId];
-          const level = Math.round(h.avg);
-          return ct ? `
-            <div class="heat-summary-item">
-              <span class="heat-summary-class">${ct.shortName}</span>
-              <span class="heat-summary-bar">
-                <span class="heat-summary-fill" style="width:${(h.avg / 5) * 100}%;background:${getHeatColor(level)}"></span>
-              </span>
-              <span class="heat-summary-value">${h.avg.toFixed(1)} — ${HEAT_LABELS[level]}</span>
-            </div>` : '';
-        }).join('')}
-      </div>
-    </div>
-  ` : '';
-
   const container = document.getElementById('studio-detail');
   container.innerHTML = `
     <button class="back-link" onclick="navigateTo('home')">
@@ -385,8 +362,6 @@ function renderStudioDetail(studioId) {
         `).join('')}
       </div>
     </div>
-
-    ${heatSummaryHTML}
 
     <div class="section-header">
       <h2 class="section-title">Teachers</h2>
@@ -425,7 +400,7 @@ function renderHeatIndicator(level) {
   if (!level) return '';
   const label = HEAT_LABELS[level] || '';
   const color = getHeatColor(level);
-  const flames = '🔥'.repeat(Math.min(level, 5));
+  const flames = '\uD83D\uDD25'.repeat(Math.min(level, 5));
   return `<span class="heat-indicator" style="--heat-color:${color}">
     <span class="heat-flames">${flames}</span>
     <span class="heat-label">${label}</span>
@@ -503,7 +478,7 @@ function renderTeacherDetail(teacherName) {
               <span class="heat-summary-bar">
                 <span class="heat-summary-fill" style="width:${(avg / 5) * 100}%;background:${getHeatColor(level)}"></span>
               </span>
-              <span class="heat-summary-value">${avg.toFixed(1)} — ${HEAT_LABELS[level]}</span>
+              <span class="heat-summary-value">${avg.toFixed(1)} \u2014 ${HEAT_LABELS[level]}</span>
             </div>` : '';
         }).join('')}
       </div>
@@ -541,7 +516,7 @@ function renderTeacherDetail(teacherName) {
         ${avgHeat > 0 ? `
           <div class="teacher-stat">
             <div class="teacher-stat-value" style="color:${getHeatColor(avgHeatLevel)}">${avgHeatRounded.toFixed(1)}</div>
-            <div class="teacher-stat-label">Avg Heat · ${HEAT_LABELS[avgHeatLevel]}</div>
+            <div class="teacher-stat-label">Avg Heat \u00B7 ${HEAT_LABELS[avgHeatLevel]}</div>
           </div>
         ` : ''}
       </div>
@@ -653,8 +628,9 @@ function updateTeacherDropdown() {
     return;
   }
 
+  const sortedTeachers = [...studio.teachers].sort((a, b) => a.localeCompare(b));
   teacherSelect.innerHTML = '<option value="General Studio Review">General Studio Review</option>' +
-    studio.teachers.map(t => `<option value="${t}">${t}</option>`).join('');
+    sortedTeachers.map(t => `<option value="${t}">${t}</option>`).join('');
 }
 
 function submitReview(e) {
