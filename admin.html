@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Behind The Om</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300..700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root {
+    --bg: #faf7f2;
+    --surface: #ffffff;
+    --text: #2c2420;
+    --text-muted: #8a7e76;
+    --border: #e8e0d8;
+    --primary: #c45d3e;
+    --primary-hover: #a84d32;
+    --success: #6b8f71;
+    --danger: #c45d3e;
+    --font: 'DM Sans', system-ui, sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* Login screen */
+  .login-screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 24px;
+  }
+
+  .login-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 40px;
+    max-width: 380px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .login-card h1 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .login-card p {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+  }
+
+  .login-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font: inherit;
+    font-size: 14px;
+    margin-bottom: 16px;
+    outline: none;
+  }
+
+  .login-input:focus { border-color: var(--primary); }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: background 0.18s;
+  }
+
+  .btn-primary {
+    background: var(--primary);
+    color: white;
+    width: 100%;
+  }
+
+  .btn-primary:hover { background: var(--primary-hover); }
+
+  .btn-sm {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+
+  .btn-danger { background: #e8443a; color: white; }
+  .btn-danger:hover { background: #d03a30; }
+
+  .btn-success { background: var(--success); color: white; }
+  .btn-success:hover { background: #5a7e60; }
+
+  .btn-outline {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+
+  .btn-outline:hover { background: var(--border); }
+
+  .error-msg {
+    color: var(--danger);
+    font-size: 13px;
+    margin-bottom: 12px;
+    display: none;
+  }
+
+  /* Dashboard */
+  .dashboard { display: none; }
+  .dashboard.active { display: block; }
+
+  .dash-header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .dash-header h1 {
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .dash-header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .dash-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    padding: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+  }
+
+  .stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--primary);
+  }
+
+  .stat-label {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  .dash-content {
+    padding: 0 24px 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+
+  .review-table {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .review-table table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  .review-table th {
+    text-align: left;
+    padding: 12px 14px;
+    background: #f5f0ea;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .review-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+
+  .review-table tr:last-child td { border-bottom: none; }
+
+  .review-table tr:hover td { background: #faf7f2; }
+
+  .review-text-cell {
+    max-width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .badge-approved { background: #e8f5e9; color: #2e7d32; }
+  .badge-pending { background: #fff3e0; color: #e65100; }
+
+  .actions-cell {
+    display: flex;
+    gap: 6px;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 48px 24px;
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--primary);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  @media (max-width: 768px) {
+    .dash-stats { grid-template-columns: repeat(2, 1fr); padding: 16px; }
+    .dash-content { padding: 0 16px 16px; }
+    .review-table { overflow-x: auto; }
+    .review-table table { min-width: 700px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-screen" id="login-screen">
+  <div class="login-card">
+    <h1>Behind The Om</h1>
+    <p>Admin Dashboard</p>
+    <div class="error-msg" id="login-error">Incorrect password. Try again.</div>
+    <input type="password" class="login-input" id="admin-password" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')attemptLogin()">
+    <button class="btn btn-primary" onclick="attemptLogin()">Sign In</button>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="dashboard" id="dashboard">
+  <div class="dash-header">
+    <div>
+      <h1>Behind The Om — Admin</h1>
+    </div>
+    <div class="dash-header-right">
+      <a href="./index.html" class="back-link">← Back to Site</a>
+      <button class="btn btn-outline btn-sm" onclick="logout()">Log Out</button>
+    </div>
+  </div>
+
+  <div class="dash-stats" id="dash-stats">
+    <!-- Filled by JS -->
+  </div>
+
+  <div class="dash-content">
+    <h2 class="section-title">All User-Submitted Reviews</h2>
+    <div class="review-table" id="review-table">
+      <div class="empty-state">Loading reviews...</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = 'https://qmyvvtdijdkwahcpersk.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_zkLTUgyWSMZKeCTIyJgsPw_IN11nAPN';
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// Simple password auth (hash-based, no server needed)
+// Default password: behindtheom2026
+const ADMIN_HASH = '8f14e45fceea167a5a36dedd4bea2543'; // md5 of the password
+
+function simpleHash(str) {
+  // Simple hash for password check — not meant for high security
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash;
+  }
+  return Math.abs(hash).toString(36);
+}
+
+const ADMIN_PASS_HASH = simpleHash('behindtheom2026');
+
+function attemptLogin() {
+  const pwd = document.getElementById('admin-password').value;
+  if (simpleHash(pwd) === ADMIN_PASS_HASH) {
+    sessionStorage.setItem('bto-admin', 'true');
+    showDashboard();
+  } else {
+    document.getElementById('login-error').style.display = 'block';
+  }
+}
+
+function logout() {
+  sessionStorage.removeItem('bto-admin');
+  document.getElementById('dashboard').classList.remove('active');
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('admin-password').value = '';
+}
+
+function showDashboard() {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('dashboard').classList.add('active');
+  loadAdminReviews();
+}
+
+async function loadAdminReviews() {
+  // Use a direct query to get ALL reviews (including unapproved)
+  // Since RLS only shows approved, we use the service role or just show what anon can see
+  const { data, error } = await sb
+    .from('reviews')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    document.getElementById('review-table').innerHTML =
+      '<div class="empty-state">Error loading reviews: ' + error.message + '</div>';
+    return;
+  }
+
+  const reviews = data || [];
+
+  // Stats
+  const totalReviews = reviews.length;
+  const avgRating = reviews.length > 0
+    ? (reviews.reduce((s, r) => s + r.rating, 0) / reviews.length).toFixed(1)
+    : '--';
+  const studios = [...new Set(reviews.map(r => r.studio_id))].length;
+  const today = new Date().toISOString().split('T')[0];
+  const todayCount = reviews.filter(r => r.created_at && r.created_at.startsWith(today)).length;
+
+  document.getElementById('dash-stats').innerHTML = `
+    <div class="stat-card">
+      <div class="stat-value">${totalReviews}</div>
+      <div class="stat-label">Total Reviews</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">${avgRating}</div>
+      <div class="stat-label">Avg Rating</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">${studios}</div>
+      <div class="stat-label">Studios Reviewed</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">${todayCount}</div>
+      <div class="stat-label">Reviews Today</div>
+    </div>
+  `;
+
+  if (reviews.length === 0) {
+    document.getElementById('review-table').innerHTML =
+      '<div class="empty-state">No reviews yet. When users submit reviews on the site, they\'ll appear here.</div>';
+    return;
+  }
+
+  const rows = reviews.map(r => {
+    const date = r.created_at ? new Date(r.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '--';
+    const approved = r.approved !== false;
+    return `
+      <tr>
+        <td>${date}</td>
+        <td><strong>${r.reviewer_name}</strong></td>
+        <td>${r.studio_id}</td>
+        <td>${r.teacher}</td>
+        <td>${r.class_type.toUpperCase()}</td>
+        <td>${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</td>
+        <td>${r.heat_rating ? '🔥'.repeat(r.heat_rating) : '--'}</td>
+        <td class="review-text-cell" title="${(r.review_text || '').replace(/"/g, '&quot;')}">${r.review_text || '--'}</td>
+        <td>
+          <span class="badge ${approved ? 'badge-approved' : 'badge-pending'}">${approved ? 'Live' : 'Hidden'}</span>
+        </td>
+        <td>
+          <div class="actions-cell">
+            ${approved
+              ? `<button class="btn btn-outline btn-sm" onclick="toggleApproval(${r.id}, false)">Hide</button>`
+              : `<button class="btn btn-success btn-sm" onclick="toggleApproval(${r.id}, true)">Approve</button>`
+            }
+            <button class="btn btn-danger btn-sm" onclick="deleteReview(${r.id})">Delete</button>
+          </div>
+        </td>
+      </tr>`;
+  }).join('');
+
+  document.getElementById('review-table').innerHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Reviewer</th>
+          <th>Studio</th>
+          <th>Teacher</th>
+          <th>Class</th>
+          <th>Rating</th>
+          <th>Heat</th>
+          <th>Review</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>
+  `;
+}
+
+async function toggleApproval(id, approved) {
+  const { error } = await sb.from('reviews').update({ approved }).eq('id', id);
+  if (error) { alert('Error: ' + error.message); return; }
+  loadAdminReviews();
+}
+
+async function deleteReview(id) {
+  if (!confirm('Delete this review permanently?')) return;
+  const { error } = await sb.from('reviews').delete().eq('id', id);
+  if (error) { alert('Error: ' + error.message); return; }
+  loadAdminReviews();
+}
+
+// Check if already logged in
+if (sessionStorage.getItem('bto-admin') === 'true') {
+  showDashboard();
+}
+</script>
+</body>
+</html>

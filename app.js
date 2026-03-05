@@ -135,8 +135,73 @@ const SAMPLE_REVIEWS = [
   { studioId: "westlake-village", teacher: "Ash G.", classType: "c1", rating: 3, teacherRating: 3, cleanRating: 4, vibeRating: 3, diffRating: 3, heatRating: 2, text: "Decent C1 class but nothing extraordinary. The instructor seemed a bit distracted and didn't offer many modifications. Studio is nice and clean though. Might try a different teacher next time — heard great things about Jessica R.", name: "Dave P.", date: "2026-01-15" }
 ];
 
-// In-memory reviews store
+// ==================== SUPABASE ====================
+
+const SUPABASE_URL = 'https://qmyvvtdijdkwahcpersk.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_zkLTUgyWSMZKeCTIyJgsPw_IN11nAPN';
+const supabase = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+
+// Reviews store — starts with sample data, merges DB reviews on load
 let reviews = [...SAMPLE_REVIEWS];
+let dbReviews = [];
+
+async function loadReviewsFromDB() {
+  if (!supabase) return;
+  try {
+    const { data, error } = await supabase
+      .from('reviews')
+      .select('*')
+      .eq('approved', true)
+      .order('created_at', { ascending: false });
+    if (error) { console.error('Supabase load error:', error); return; }
+    // Map DB rows to app format
+    dbReviews = (data || []).map(r => ({
+      studioId: r.studio_id,
+      teacher: r.teacher,
+      classType: r.class_type,
+      rating: r.rating,
+      teacherRating: r.teacher_rating || r.rating,
+      cleanRating: r.clean_rating || r.rating,
+      vibeRating: r.vibe_rating || r.rating,
+      diffRating: r.diff_rating || r.rating,
+      heatRating: r.heat_rating || 0,
+      text: r.review_text || '',
+      name: r.reviewer_name,
+      date: r.review_date,
+      fromDB: true
+    }));
+    // Merge: DB reviews first, then sample data
+    reviews = [...dbReviews, ...SAMPLE_REVIEWS];
+    // Re-render current view
+    if (currentView === 'home') renderStudios();
+    else if (currentView === 'studio' && currentStudio) renderStudioDetail(currentStudio);
+  } catch (err) {
+    console.error('Failed to load reviews:', err);
+  }
+}
+
+async function saveReviewToDB(review) {
+  if (!supabase) return;
+  try {
+    const { error } = await supabase.from('reviews').insert({
+      studio_id: review.studioId,
+      teacher: review.teacher,
+      class_type: review.classType,
+      rating: review.rating,
+      teacher_rating: review.teacherRating,
+      clean_rating: review.cleanRating,
+      vibe_rating: review.vibeRating,
+      diff_rating: review.diffRating,
+      heat_rating: review.heatRating,
+      review_text: review.text,
+      reviewer_name: review.name,
+      review_date: review.date
+    });
+    if (error) console.error('Supabase save error:', error);
+  } catch (err) {
+    console.error('Failed to save review:', err);
+  }
+}
 
 // App state
 let currentView = 'home';
@@ -331,6 +396,8 @@ function renderStudioDetail(studioId) {
     </div>
   ` : '';
 
+
+
   const container = document.getElementById('studio-detail');
   container.innerHTML = `
     <button class="back-link" onclick="navigateTo('home')">
@@ -400,7 +467,7 @@ function renderHeatIndicator(level) {
   if (!level) return '';
   const label = HEAT_LABELS[level] || '';
   const color = getHeatColor(level);
-  const flames = '\uD83D\uDD25'.repeat(Math.min(level, 5));
+  const flames = '🔥'.repeat(Math.min(level, 5));
   return `<span class="heat-indicator" style="--heat-color:${color}">
     <span class="heat-flames">${flames}</span>
     <span class="heat-label">${label}</span>
@@ -478,7 +545,7 @@ function renderTeacherDetail(teacherName) {
               <span class="heat-summary-bar">
                 <span class="heat-summary-fill" style="width:${(avg / 5) * 100}%;background:${getHeatColor(level)}"></span>
               </span>
-              <span class="heat-summary-value">${avg.toFixed(1)} \u2014 ${HEAT_LABELS[level]}</span>
+              <span class="heat-summary-value">${avg.toFixed(1)} — ${HEAT_LABELS[level]}</span>
             </div>` : '';
         }).join('')}
       </div>
@@ -516,7 +583,7 @@ function renderTeacherDetail(teacherName) {
         ${avgHeat > 0 ? `
           <div class="teacher-stat">
             <div class="teacher-stat-value" style="color:${getHeatColor(avgHeatLevel)}">${avgHeatRounded.toFixed(1)}</div>
-            <div class="teacher-stat-label">Avg Heat \u00B7 ${HEAT_LABELS[avgHeatLevel]}</div>
+            <div class="teacher-stat-label">Avg Heat · ${HEAT_LABELS[avgHeatLevel]}</div>
           </div>
         ` : ''}
       </div>
@@ -658,6 +725,7 @@ function submitReview(e) {
   };
 
   reviews.unshift(review);
+  saveReviewToDB(review);
   closeReviewModal();
   showToast('Review submitted! Thank you for your feedback.');
 
@@ -794,4 +862,5 @@ document.addEventListener('keydown', function(e) {
 
 document.addEventListener('DOMContentLoaded', function() {
   handleRoute();
+  loadReviewsFromDB();
 });
