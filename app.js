@@ -139,7 +139,14 @@ const SAMPLE_REVIEWS = [
 
 const SUPABASE_URL = 'https://qmyvvtdijdkwahcpersk.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_zkLTUgyWSMZKeCTIyJgsPw_IN11nAPN';
-const supabase = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+let supabase = null;
+try {
+  if (window.supabase) {
+    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  }
+} catch (e) {
+  console.warn('Supabase init failed:', e);
+}
 
 // Reviews store — starts with sample data, merges DB reviews on load
 let reviews = [...SAMPLE_REVIEWS];
