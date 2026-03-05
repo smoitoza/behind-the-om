@@ -139,10 +139,10 @@ const SAMPLE_REVIEWS = [
 
 const SUPABASE_URL = 'https://qmyvvtdijdkwahcpersk.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_zkLTUgyWSMZKeCTIyJgsPw_IN11nAPN';
-let supabase = null;
+let supabaseClient = null;
 try {
   if (window.supabase) {
-    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   }
 } catch (e) {
   console.warn('Supabase init failed:', e);
@@ -153,9 +153,9 @@ let reviews = [...SAMPLE_REVIEWS];
 let dbReviews = [];
 
 async function loadReviewsFromDB() {
-  if (!supabase) return;
+  if (!supabaseClient) return;
   try {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from('reviews')
       .select('*')
       .eq('approved', true)
@@ -188,9 +188,9 @@ async function loadReviewsFromDB() {
 }
 
 async function saveReviewToDB(review) {
-  if (!supabase) return;
+  if (!supabaseClient) return;
   try {
-    const { error } = await supabase.from('reviews').insert({
+    const { error } = await supabaseClient.from('reviews').insert({
       studio_id: review.studioId,
       teacher: review.teacher,
       class_type: review.classType,
