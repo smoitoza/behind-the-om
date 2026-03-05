@@ -867,7 +867,13 @@ document.addEventListener('keydown', function(e) {
 
 // ==================== INIT ====================
 
-document.addEventListener('DOMContentLoaded', function() {
+function init() {
   handleRoute();
   loadReviewsFromDB();
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
