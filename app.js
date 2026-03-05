@@ -94,42 +94,45 @@ const CLASS_TYPES = [
   { id: "cr", name: "CoreRestore (CR)", shortName: "CR", description: "Reboot and rebuild with postures focused on stretching and breathing with no added heat.", heated: false, intensity: "Low" }
 ];
 
-// Sample reviews — 3-4 per studio
+// Heat level labels
+const HEAT_LABELS = ['', 'Cool', 'Mild', 'Warm', 'Hot', 'Inferno'];
+
+// Sample reviews — 3-4 per studio (now with heatRating)
 const SAMPLE_REVIEWS = [
   // Goleta
-  { studioId: "goleta", teacher: "Steven P.", classType: "c2", rating: 5, teacherRating: 5, cleanRating: 4, vibeRating: 5, diffRating: 5, text: "Love the C2 classes here! Steven always pushes us just the right amount. The heat is intense but so rewarding. Studio could use better ventilation on really hot days, but overall my favorite location.", name: "Sarah M.", date: "2026-02-20" },
-  { studioId: "goleta", teacher: "Kaitlyn V.", classType: "ys", rating: 4, teacherRating: 5, cleanRating: 4, vibeRating: 4, diffRating: 4, text: "Yoga Sculpt with Kaitlyn is the best workout I've ever had. Worth every penny. She keeps the energy up and the playlist is always fire. Only downside is it gets really crowded on weekday evenings.", name: "Mike R.", date: "2026-02-15" },
-  { studioId: "goleta", teacher: "General Studio Review", classType: "c1", rating: 4, teacherRating: 4, cleanRating: 5, vibeRating: 4, diffRating: 4, text: "Great for beginners. The C1 classes are welcoming and the staff is always friendly. Free parking is a huge plus — hard to find in Goleta during busy hours. Clean facilities and good mat rentals.", name: "Priya K.", date: "2026-01-28" },
-  { studioId: "goleta", teacher: "Claire Z.", classType: "hpf", rating: 3, teacherRating: 3, cleanRating: 3, vibeRating: 4, diffRating: 3, text: "The HPF class was decent but felt a bit rushed. Room was really warm which I know is the point, but ventilation could be improved. Claire is nice but I've had better instruction at other locations. Lockers are small.", name: "Tom L.", date: "2026-01-10" },
+  { studioId: "goleta", teacher: "Steven P.", classType: "c2", rating: 5, teacherRating: 5, cleanRating: 4, vibeRating: 5, diffRating: 5, heatRating: 4, text: "Love the C2 classes here! Steven always pushes us just the right amount. The heat is intense but so rewarding. Studio could use better ventilation on really hot days, but overall my favorite location.", name: "Sarah M.", date: "2026-02-20" },
+  { studioId: "goleta", teacher: "Kaitlyn V.", classType: "ys", rating: 4, teacherRating: 5, cleanRating: 4, vibeRating: 4, diffRating: 4, heatRating: 4, text: "Yoga Sculpt with Kaitlyn is the best workout I've ever had. Worth every penny. She keeps the energy up and the playlist is always fire. Only downside is it gets really crowded on weekday evenings.", name: "Mike R.", date: "2026-02-15" },
+  { studioId: "goleta", teacher: "General Studio Review", classType: "c1", rating: 4, teacherRating: 4, cleanRating: 5, vibeRating: 4, diffRating: 4, heatRating: 2, text: "Great for beginners. The C1 classes are welcoming and the staff is always friendly. Free parking is a huge plus — hard to find in Goleta during busy hours. Clean facilities and good mat rentals.", name: "Priya K.", date: "2026-01-28" },
+  { studioId: "goleta", teacher: "Claire Z.", classType: "hpf", rating: 3, teacherRating: 3, cleanRating: 3, vibeRating: 4, diffRating: 3, heatRating: 5, text: "The HPF class was decent but felt a bit rushed. Room was really warm which I know is the point, but ventilation could be improved. Claire is nice but I've had better instruction at other locations. Lockers are small.", name: "Tom L.", date: "2026-01-10" },
 
   // La Cumbre
-  { studioId: "la-cumbre", teacher: "Brandon C.", classType: "c2", rating: 5, teacherRating: 5, cleanRating: 5, vibeRating: 5, diffRating: 5, text: "Brandon's C2 class is absolutely incredible. He has a way of making challenging sequences feel accessible while still pushing you. The La Cumbre location is always immaculate and the energy is just *chef's kiss*.", name: "Jess W.", date: "2026-02-22" },
-  { studioId: "la-cumbre", teacher: "Sati N.", classType: "cr", rating: 5, teacherRating: 5, cleanRating: 4, vibeRating: 5, diffRating: 5, text: "CoreRestore with Sati is exactly what I need after a long week. She creates such a peaceful atmosphere and the stretches are therapeutic. I always leave feeling like a new person. Highly recommend for anyone dealing with stress.", name: "Emma T.", date: "2026-02-18" },
-  { studioId: "la-cumbre", teacher: "General Studio Review", classType: "ys", rating: 3, teacherRating: 3, cleanRating: 4, vibeRating: 3, diffRating: 2, text: "The Yoga Sculpt class was marketed as suitable for all levels, but it felt really advanced. I'm intermediate and struggled to keep up. Music was a bit too loud for my taste. Nice studio though — clean and well-maintained.", name: "Daniel H.", date: "2026-02-05" },
-  { studioId: "la-cumbre", teacher: "Matt D.", classType: "csx", rating: 4, teacherRating: 4, cleanRating: 4, vibeRating: 4, diffRating: 4, text: "CSX with Matt is a solid workout. Good mix of strength and breathwork. Could use more weight options — the 8lb and 10lb dumbbells are always taken. Overall a great experience and I'll keep coming back.", name: "Rachel P.", date: "2026-01-30" },
+  { studioId: "la-cumbre", teacher: "Brandon C.", classType: "c2", rating: 5, teacherRating: 5, cleanRating: 5, vibeRating: 5, diffRating: 5, heatRating: 4, text: "Brandon's C2 class is absolutely incredible. He has a way of making challenging sequences feel accessible while still pushing you. The La Cumbre location is always immaculate and the energy is just *chef's kiss*.", name: "Jess W.", date: "2026-02-22" },
+  { studioId: "la-cumbre", teacher: "Sati N.", classType: "cr", rating: 5, teacherRating: 5, cleanRating: 4, vibeRating: 5, diffRating: 5, heatRating: 1, text: "CoreRestore with Sati is exactly what I need after a long week. She creates such a peaceful atmosphere and the stretches are therapeutic. I always leave feeling like a new person. Highly recommend for anyone dealing with stress.", name: "Emma T.", date: "2026-02-18" },
+  { studioId: "la-cumbre", teacher: "General Studio Review", classType: "ys", rating: 3, teacherRating: 3, cleanRating: 4, vibeRating: 3, diffRating: 2, heatRating: 4, text: "The Yoga Sculpt class was marketed as suitable for all levels, but it felt really advanced. I'm intermediate and struggled to keep up. Music was a bit too loud for my taste. Nice studio though — clean and well-maintained.", name: "Daniel H.", date: "2026-02-05" },
+  { studioId: "la-cumbre", teacher: "Matt D.", classType: "csx", rating: 4, teacherRating: 4, cleanRating: 4, vibeRating: 4, diffRating: 4, heatRating: 2, text: "CSX with Matt is a solid workout. Good mix of strength and breathwork. Could use more weight options — the 8lb and 10lb dumbbells are always taken. Overall a great experience and I'll keep coming back.", name: "Rachel P.", date: "2026-01-30" },
 
   // State Street
-  { studioId: "state-street", teacher: "Gabby E.", classType: "c2", rating: 5, teacherRating: 5, cleanRating: 5, vibeRating: 5, diffRating: 5, text: "State Street is hands down the best CorePower in the area. Gabby sets the tone for the whole studio — her C2 classes are challenging, well-paced, and inspiring. Downtown location means great energy from the crowd too.", name: "Aiden K.", date: "2026-02-25" },
-  { studioId: "state-street", teacher: "Liya Z.", classType: "ys", rating: 4, teacherRating: 5, cleanRating: 4, vibeRating: 5, diffRating: 4, text: "Liya's Sculpt class is always a party. Her music choices are perfect and she brings serious energy. Only knock is that the studio is a bit small so it gets very warm and crowded on popular time slots.", name: "Nina S.", date: "2026-02-12" },
-  { studioId: "state-street", teacher: "Sarah P.", classType: "c1", rating: 4, teacherRating: 4, cleanRating: 5, vibeRating: 4, diffRating: 5, text: "As a total beginner, I was nervous to try CorePower. Sarah made the C1 class so welcoming. She came up to me before class and checked in. The studio on State Street is beautiful and clean. Will definitely be back.", name: "Chris B.", date: "2026-01-22" },
-  { studioId: "state-street", teacher: "General Studio Review", classType: "hpf", rating: 3, teacherRating: 3, cleanRating: 3, vibeRating: 4, diffRating: 3, text: "Decent studio but parking in downtown SB is a nightmare. I've been late to class twice because of it. The HPF class itself was fine — good heat, decent flow. Showers are small. Would come more often if parking wasn't such a hassle.", name: "Jordan M.", date: "2026-01-08" },
+  { studioId: "state-street", teacher: "Gabby E.", classType: "c2", rating: 5, teacherRating: 5, cleanRating: 5, vibeRating: 5, diffRating: 5, heatRating: 5, text: "State Street is hands down the best CorePower in the area. Gabby sets the tone for the whole studio — her C2 classes are challenging, well-paced, and inspiring. Downtown location means great energy from the crowd too.", name: "Aiden K.", date: "2026-02-25" },
+  { studioId: "state-street", teacher: "Liya Z.", classType: "ys", rating: 4, teacherRating: 5, cleanRating: 4, vibeRating: 5, diffRating: 4, heatRating: 4, text: "Liya's Sculpt class is always a party. Her music choices are perfect and she brings serious energy. Only knock is that the studio is a bit small so it gets very warm and crowded on popular time slots.", name: "Nina S.", date: "2026-02-12" },
+  { studioId: "state-street", teacher: "Sarah P.", classType: "c1", rating: 4, teacherRating: 4, cleanRating: 5, vibeRating: 4, diffRating: 5, heatRating: 2, text: "As a total beginner, I was nervous to try CorePower. Sarah made the C1 class so welcoming. She came up to me before class and checked in. The studio on State Street is beautiful and clean. Will definitely be back.", name: "Chris B.", date: "2026-01-22" },
+  { studioId: "state-street", teacher: "General Studio Review", classType: "hpf", rating: 3, teacherRating: 3, cleanRating: 3, vibeRating: 4, diffRating: 3, heatRating: 5, text: "Decent studio but parking in downtown SB is a nightmare. I've been late to class twice because of it. The HPF class itself was fine — good heat, decent flow. Showers are small. Would come more often if parking wasn't such a hassle.", name: "Jordan M.", date: "2026-01-08" },
 
   // Thousand Oaks
-  { studioId: "thousand-oaks", teacher: "Brie W.", classType: "ys", rating: 5, teacherRating: 5, cleanRating: 5, vibeRating: 5, diffRating: 5, text: "Brie's Yoga Sculpt is unmatched. She brings so much positive energy and somehow makes burpees feel fun? The Thousand Oaks studio is spacious with great amenities. My go-to class every Saturday morning.", name: "Kara F.", date: "2026-02-24" },
-  { studioId: "thousand-oaks", teacher: "Charlotte W.", classType: "c2", rating: 4, teacherRating: 4, cleanRating: 4, vibeRating: 4, diffRating: 4, text: "Solid C2 experience. Charlotte knows her stuff and gives good adjustments. Studio is clean and well-organized. Only wish they had more evening class options — the schedule is a bit limited after 7pm.", name: "Brian D.", date: "2026-02-10" },
-  { studioId: "thousand-oaks", teacher: "General Studio Review", classType: "c1", rating: 4, teacherRating: 4, cleanRating: 5, vibeRating: 4, diffRating: 4, text: "Love this location! Staff is always welcoming and the studio is very clean. The C1 classes are perfect for my fitness level. Plenty of parking which is great. Would love to see more CoreRestore classes on the schedule.", name: "Lisa N.", date: "2026-01-20" },
-  { studioId: "thousand-oaks", teacher: "Hans W.", classType: "csx", rating: 3, teacherRating: 4, cleanRating: 3, vibeRating: 3, diffRating: 2, text: "CSX was way harder than I expected. The 'high intensity' label doesn't quite capture it — this is basically CrossFit. Hans is a good instructor but moved through exercises very fast. Also the A/C seemed broken during my visit.", name: "Alex T.", date: "2026-01-05" },
+  { studioId: "thousand-oaks", teacher: "Brie W.", classType: "ys", rating: 5, teacherRating: 5, cleanRating: 5, vibeRating: 5, diffRating: 5, heatRating: 3, text: "Brie's Yoga Sculpt is unmatched. She brings so much positive energy and somehow makes burpees feel fun? The Thousand Oaks studio is spacious with great amenities. My go-to class every Saturday morning.", name: "Kara F.", date: "2026-02-24" },
+  { studioId: "thousand-oaks", teacher: "Charlotte W.", classType: "c2", rating: 4, teacherRating: 4, cleanRating: 4, vibeRating: 4, diffRating: 4, heatRating: 3, text: "Solid C2 experience. Charlotte knows her stuff and gives good adjustments. Studio is clean and well-organized. Only wish they had more evening class options — the schedule is a bit limited after 7pm.", name: "Brian D.", date: "2026-02-10" },
+  { studioId: "thousand-oaks", teacher: "General Studio Review", classType: "c1", rating: 4, teacherRating: 4, cleanRating: 5, vibeRating: 4, diffRating: 4, heatRating: 2, text: "Love this location! Staff is always welcoming and the studio is very clean. The C1 classes are perfect for my fitness level. Plenty of parking which is great. Would love to see more CoreRestore classes on the schedule.", name: "Lisa N.", date: "2026-01-20" },
+  { studioId: "thousand-oaks", teacher: "Hans W.", classType: "csx", rating: 3, teacherRating: 4, cleanRating: 3, vibeRating: 3, diffRating: 2, heatRating: 1, text: "CSX was way harder than I expected. The 'high intensity' label doesn't quite capture it — this is basically CrossFit. Hans is a good instructor but moved through exercises very fast. Also the A/C seemed broken during my visit.", name: "Alex T.", date: "2026-01-05" },
 
   // Ventura
-  { studioId: "ventura", teacher: "Faye T.", classType: "c2", rating: 4, teacherRating: 5, cleanRating: 4, vibeRating: 5, diffRating: 4, text: "Faye is an exceptional teacher. Her C2 flows are creative and she has a soothing voice that keeps you centered even during challenging poses. The Ventura studio has great vibes — feels like a community.", name: "Megan C.", date: "2026-02-21" },
-  { studioId: "ventura", teacher: "Kesh M.", classType: "hpf", rating: 4, teacherRating: 4, cleanRating: 4, vibeRating: 4, diffRating: 5, text: "Hot Power Fusion with Kesh is exactly what it sounds like — hot and powerful. Good balance of meditative moments and intense sequences. The Ventura location is cozy but never feels too cramped.", name: "James L.", date: "2026-02-08" },
-  { studioId: "ventura", teacher: "General Studio Review", classType: "c1", rating: 5, teacherRating: 4, cleanRating: 5, vibeRating: 5, diffRating: 5, text: "This is the hidden gem of CorePower locations. Never too crowded, always clean, and the community is incredibly warm. Every teacher I've had here has been fantastic. Love the close-to-the-beach location.", name: "Olivia R.", date: "2026-01-25" },
+  { studioId: "ventura", teacher: "Faye T.", classType: "c2", rating: 4, teacherRating: 5, cleanRating: 4, vibeRating: 5, diffRating: 4, heatRating: 3, text: "Faye is an exceptional teacher. Her C2 flows are creative and she has a soothing voice that keeps you centered even during challenging poses. The Ventura studio has great vibes — feels like a community.", name: "Megan C.", date: "2026-02-21" },
+  { studioId: "ventura", teacher: "Kesh M.", classType: "hpf", rating: 4, teacherRating: 4, cleanRating: 4, vibeRating: 4, diffRating: 5, heatRating: 5, text: "Hot Power Fusion with Kesh is exactly what it sounds like — hot and powerful. Good balance of meditative moments and intense sequences. The Ventura location is cozy but never feels too cramped.", name: "James L.", date: "2026-02-08" },
+  { studioId: "ventura", teacher: "General Studio Review", classType: "c1", rating: 5, teacherRating: 4, cleanRating: 5, vibeRating: 5, diffRating: 5, heatRating: 2, text: "This is the hidden gem of CorePower locations. Never too crowded, always clean, and the community is incredibly warm. Every teacher I've had here has been fantastic. Love the close-to-the-beach location.", name: "Olivia R.", date: "2026-01-25" },
 
   // Westlake Village
-  { studioId: "westlake-village", teacher: "Jessica R.", classType: "c2", rating: 5, teacherRating: 5, cleanRating: 5, vibeRating: 5, diffRating: 5, text: "Jessica runs a tight ship at Westlake Village. Her C2 classes are challenging but inclusive. The studio itself is gorgeous — clean, modern, and well-maintained. Parking is convenient. My home studio!", name: "Taylor M.", date: "2026-02-23" },
-  { studioId: "westlake-village", teacher: "Joshi A.", classType: "ys", rating: 4, teacherRating: 5, cleanRating: 4, vibeRating: 5, diffRating: 4, text: "Joshi's Sculpt class is legendary. The guy has infectious energy and the playlists are always perfect. I drove 30 minutes specifically for his class and it was absolutely worth it. Studio is great too.", name: "Sam K.", date: "2026-02-14" },
-  { studioId: "westlake-village", teacher: "General Studio Review", classType: "cr", rating: 4, teacherRating: 4, cleanRating: 5, vibeRating: 5, diffRating: 4, text: "Beautiful studio with a really chill vibe. The CoreRestore class was exactly what I needed — gentle stretching in a dimly lit room with calming music. Felt like a spa experience. Would love more evening CR slots.", name: "Lauren W.", date: "2026-02-02" },
-  { studioId: "westlake-village", teacher: "Ash G.", classType: "c1", rating: 3, teacherRating: 3, cleanRating: 4, vibeRating: 3, diffRating: 3, text: "Decent C1 class but nothing extraordinary. The instructor seemed a bit distracted and didn't offer many modifications. Studio is nice and clean though. Might try a different teacher next time — heard great things about Jessica R.", name: "Dave P.", date: "2026-01-15" }
+  { studioId: "westlake-village", teacher: "Jessica R.", classType: "c2", rating: 5, teacherRating: 5, cleanRating: 5, vibeRating: 5, diffRating: 5, heatRating: 4, text: "Jessica runs a tight ship at Westlake Village. Her C2 classes are challenging but inclusive. The studio itself is gorgeous — clean, modern, and well-maintained. Parking is convenient. My home studio!", name: "Taylor M.", date: "2026-02-23" },
+  { studioId: "westlake-village", teacher: "Joshi A.", classType: "ys", rating: 4, teacherRating: 5, cleanRating: 4, vibeRating: 5, diffRating: 4, heatRating: 4, text: "Joshi's Sculpt class is legendary. The guy has infectious energy and the playlists are always perfect. I drove 30 minutes specifically for his class and it was absolutely worth it. Studio is great too.", name: "Sam K.", date: "2026-02-14" },
+  { studioId: "westlake-village", teacher: "General Studio Review", classType: "cr", rating: 4, teacherRating: 4, cleanRating: 5, vibeRating: 5, diffRating: 4, heatRating: 1, text: "Beautiful studio with a really chill vibe. The CoreRestore class was exactly what I needed — gentle stretching in a dimly lit room with calming music. Felt like a spa experience. Would love more evening CR slots.", name: "Lauren W.", date: "2026-02-02" },
+  { studioId: "westlake-village", teacher: "Ash G.", classType: "c1", rating: 3, teacherRating: 3, cleanRating: 4, vibeRating: 3, diffRating: 3, heatRating: 2, text: "Decent C1 class but nothing extraordinary. The instructor seemed a bit distracted and didn't offer many modifications. Studio is nice and clean though. Might try a different teacher next time — heard great things about Jessica R.", name: "Dave P.", date: "2026-01-15" }
 ];
 
 // In-memory reviews store
@@ -273,12 +276,83 @@ function setCountyFilter(county, btn) {
 
 // ==================== STUDIO DETAIL ====================
 
+// Track current class filter for studio detail view
+let currentClassFilter = 'all';
+
+function getAvgHeatByClass(studioId) {
+  const studioReviews = reviews.filter(r => r.studioId === studioId && r.heatRating);
+  const byClass = {};
+  studioReviews.forEach(r => {
+    if (!byClass[r.classType]) byClass[r.classType] = [];
+    byClass[r.classType].push(r.heatRating);
+  });
+  const result = {};
+  Object.keys(byClass).forEach(ct => {
+    const arr = byClass[ct];
+    const avg = arr.reduce((s, v) => s + v, 0) / arr.length;
+    result[ct] = { avg: Math.round(avg * 10) / 10, count: arr.length };
+  });
+  return result;
+}
+
+function filterStudioReviews(classTypeId) {
+  currentClassFilter = classTypeId;
+  // Re-render just the reviews list and update active tab
+  document.querySelectorAll('.class-filter-tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.classType === classTypeId);
+  });
+  const studioReviews = reviews.filter(r => r.studioId === currentStudio);
+  const filtered = classTypeId === 'all' ? studioReviews : studioReviews.filter(r => r.classType === classTypeId);
+  const listEl = document.getElementById('studio-reviews-list');
+  if (listEl) {
+    listEl.innerHTML = filtered.length === 0
+      ? `<div class="empty-state"><p>No reviews for this class type yet.</p></div>`
+      : filtered.map(renderReviewCard).join('');
+  }
+}
+
 function renderStudioDetail(studioId) {
   const studio = STUDIOS.find(s => s.id === studioId);
   if (!studio) return;
+  currentClassFilter = 'all';
 
   const { avg, count } = getStudioRating(studioId);
   const studioReviews = reviews.filter(r => r.studioId === studioId);
+
+  // Build class type filter tabs — only show classes that have reviews
+  const reviewedClassTypes = [...new Set(studioReviews.map(r => r.classType))];
+  const classFilterHTML = reviewedClassTypes.length > 1 ? `
+    <div class="class-filter-tabs">
+      <button class="class-filter-tab active" data-class-type="all" onclick="filterStudioReviews('all')">All Classes</button>
+      ${reviewedClassTypes.map(ctId => {
+        const ct = CLASS_TYPES.find(c => c.id === ctId);
+        return ct ? `<button class="class-filter-tab" data-class-type="${ct.id}" onclick="filterStudioReviews('${ct.id}')">${ct.shortName}</button>` : '';
+      }).join('')}
+    </div>
+  ` : '';
+
+  // Average heat by class type summary
+  const heatByClass = getAvgHeatByClass(studioId);
+  const heatSummaryHTML = Object.keys(heatByClass).length > 0 ? `
+    <div class="heat-summary">
+      <h3 class="heat-summary-title">Avg Perceived Heat by Class</h3>
+      <div class="heat-summary-grid">
+        ${Object.keys(heatByClass).map(ctId => {
+          const ct = CLASS_TYPES.find(c => c.id === ctId);
+          const h = heatByClass[ctId];
+          const level = Math.round(h.avg);
+          return ct ? `
+            <div class="heat-summary-item">
+              <span class="heat-summary-class">${ct.shortName}</span>
+              <span class="heat-summary-bar">
+                <span class="heat-summary-fill" style="width:${(h.avg / 5) * 100}%;background:${getHeatColor(level)}"></span>
+              </span>
+              <span class="heat-summary-value">${h.avg.toFixed(1)} — ${HEAT_LABELS[level]}</span>
+            </div>` : '';
+        }).join('')}
+      </div>
+    </div>
+  ` : '';
 
   const container = document.getElementById('studio-detail');
   container.innerHTML = `
@@ -312,6 +386,8 @@ function renderStudioDetail(studioId) {
       </div>
     </div>
 
+    ${heatSummaryHTML}
+
     <div class="section-header">
       <h2 class="section-title">Teachers</h2>
       <span class="section-count">${studio.teachers.length} teachers</span>
@@ -329,7 +405,8 @@ function renderStudioDetail(studioId) {
       <h2 class="section-title">Reviews</h2>
       <button class="btn btn-primary btn-sm" onclick="openReviewModal('${studioId}')">Write a Review</button>
     </div>
-    <div class="reviews-list">
+    ${classFilterHTML}
+    <div class="reviews-list" id="studio-reviews-list">
       ${studioReviews.length === 0 ? `
         <div class="empty-state">
           <p>No reviews yet. Be the first to share your experience!</p>
@@ -337,6 +414,22 @@ function renderStudioDetail(studioId) {
       ` : studioReviews.map(renderReviewCard).join('')}
     </div>
   `;
+}
+
+function getHeatColor(level) {
+  const colors = ['', '#5a8a8a', '#6b8f71', '#d4953a', '#c45d3e', '#b8434b'];
+  return colors[level] || '#5a8a8a';
+}
+
+function renderHeatIndicator(level) {
+  if (!level) return '';
+  const label = HEAT_LABELS[level] || '';
+  const color = getHeatColor(level);
+  const flames = '🔥'.repeat(Math.min(level, 5));
+  return `<span class="heat-indicator" style="--heat-color:${color}">
+    <span class="heat-flames">${flames}</span>
+    <span class="heat-label">${label}</span>
+  </span>`;
 }
 
 function renderReviewCard(review) {
@@ -356,6 +449,7 @@ function renderReviewCard(review) {
       <div class="review-badges">
         ${review.teacher !== 'General Studio Review' ? `<span class="review-badge">${review.teacher}</span>` : ''}
         ${classType ? `<span class="review-badge">${classType.shortName}${classType.heated ? ' · Heated' : ''}</span>` : ''}
+        ${review.heatRating ? renderHeatIndicator(review.heatRating) : ''}
       </div>
       <p class="review-text">${review.text}</p>
       <div class="review-ratings-mini">
@@ -363,6 +457,7 @@ function renderReviewCard(review) {
         <span class="mini-rating">Clean: <strong>${review.cleanRating}/5</strong></span>
         <span class="mini-rating">Vibe: <strong>${review.vibeRating}/5</strong></span>
         <span class="mini-rating">Difficulty: <strong>${review.diffRating}/5</strong></span>
+        ${review.heatRating ? `<span class="mini-rating">Heat: <strong>${HEAT_LABELS[review.heatRating]}</strong></span>` : ''}
       </div>
     </div>
   `;
@@ -377,6 +472,43 @@ function renderTeacherDetail(teacherName) {
   const avgRating = teacherReviews.length > 0
     ? (teacherReviews.reduce((s, r) => s + r.rating, 0) / teacherReviews.length).toFixed(1)
     : '--';
+
+  // Avg heat by class for this teacher
+  const heatReviews = teacherReviews.filter(r => r.heatRating);
+  const avgHeat = heatReviews.length > 0
+    ? (heatReviews.reduce((s, r) => s + r.heatRating, 0) / heatReviews.length)
+    : 0;
+  const avgHeatRounded = Math.round(avgHeat * 10) / 10;
+  const avgHeatLevel = Math.round(avgHeat);
+
+  // Heat by class type for this teacher
+  const heatByClass = {};
+  heatReviews.forEach(r => {
+    if (!heatByClass[r.classType]) heatByClass[r.classType] = [];
+    heatByClass[r.classType].push(r.heatRating);
+  });
+
+  const heatBreakdownHTML = Object.keys(heatByClass).length > 0 ? `
+    <div class="heat-summary" style="margin-top:var(--space-6)">
+      <h3 class="heat-summary-title">Perceived Heat by Class</h3>
+      <div class="heat-summary-grid">
+        ${Object.keys(heatByClass).map(ctId => {
+          const ct = CLASS_TYPES.find(c => c.id === ctId);
+          const arr = heatByClass[ctId];
+          const avg = arr.reduce((s, v) => s + v, 0) / arr.length;
+          const level = Math.round(avg);
+          return ct ? `
+            <div class="heat-summary-item">
+              <span class="heat-summary-class">${ct.shortName}</span>
+              <span class="heat-summary-bar">
+                <span class="heat-summary-fill" style="width:${(avg / 5) * 100}%;background:${getHeatColor(level)}"></span>
+              </span>
+              <span class="heat-summary-value">${avg.toFixed(1)} — ${HEAT_LABELS[level]}</span>
+            </div>` : '';
+        }).join('')}
+      </div>
+    </div>
+  ` : '';
 
   container.innerHTML = `
     <button class="back-link" onclick="history.back()">
@@ -406,6 +538,12 @@ function renderTeacherDetail(teacherName) {
           <div class="teacher-stat-value">${teacherStudios.length}</div>
           <div class="teacher-stat-label">Studio${teacherStudios.length !== 1 ? 's' : ''}</div>
         </div>
+        ${avgHeat > 0 ? `
+          <div class="teacher-stat">
+            <div class="teacher-stat-value" style="color:${getHeatColor(avgHeatLevel)}">${avgHeatRounded.toFixed(1)}</div>
+            <div class="teacher-stat-label">Avg Heat · ${HEAT_LABELS[avgHeatLevel]}</div>
+          </div>
+        ` : ''}
       </div>
 
       <div class="section-header" style="margin-top:var(--space-6)">
@@ -417,6 +555,8 @@ function renderTeacherDetail(teacherName) {
         `).join('')}
       </div>
     </div>
+
+    ${heatBreakdownHTML}
 
     ${teacherReviews.length > 0 ? `
       <div class="section-header">
@@ -461,7 +601,7 @@ function openReviewModal(preselectedStudio) {
   }
 
   // Build star inputs for sub-ratings
-  ['rating-teacher', 'rating-cleanliness', 'rating-vibe', 'rating-difficulty'].forEach(id => {
+  ['rating-teacher', 'rating-cleanliness', 'rating-vibe', 'rating-difficulty', 'rating-heat'].forEach(id => {
     const el = document.getElementById(id);
     if (el && el.children.length === 0) {
       el.innerHTML = [1,2,3,4,5].map(v =>
@@ -476,6 +616,13 @@ function openReviewModal(preselectedStudio) {
   const mainRating = document.getElementById('rating-overall');
   mainRating.dataset.rating = '0';
   mainRating.querySelectorAll('.star-btn').forEach(b => b.classList.remove('active'));
+
+  // Reset heat rating
+  const heatRating = document.getElementById('rating-heat');
+  if (heatRating) {
+    heatRating.dataset.rating = '0';
+    heatRating.querySelectorAll('.heat-btn').forEach(b => b.classList.remove('active'));
+  }
 
   // Set date
   document.getElementById('review-date').value = new Date().toISOString().split('T')[0];
@@ -528,6 +675,7 @@ function submitReview(e) {
     cleanRating: parseInt(document.getElementById('rating-cleanliness').dataset.rating) || overallRating,
     vibeRating: parseInt(document.getElementById('rating-vibe').dataset.rating) || overallRating,
     diffRating: parseInt(document.getElementById('rating-difficulty').dataset.rating) || overallRating,
+    heatRating: parseInt(document.getElementById('rating-heat').dataset.rating) || 0,
     text: document.getElementById('review-text').value,
     name: document.getElementById('review-name').value,
     date: document.getElementById('review-date').value
@@ -549,16 +697,29 @@ function submitReview(e) {
 
 document.addEventListener('click', function(e) {
   const starBtn = e.target.closest('.star-btn');
-  if (!starBtn) return;
+  if (starBtn) {
+    const container = starBtn.closest('.star-rating-input');
+    const value = parseInt(starBtn.dataset.value);
+    container.dataset.rating = value;
+    container.querySelectorAll('.star-btn').forEach(btn => {
+      const btnVal = parseInt(btn.dataset.value);
+      btn.classList.toggle('active', btnVal <= value);
+    });
+    return;
+  }
 
-  const container = starBtn.closest('.star-rating-input');
-  const value = parseInt(starBtn.dataset.value);
-  container.dataset.rating = value;
-
-  container.querySelectorAll('.star-btn').forEach(btn => {
-    const btnVal = parseInt(btn.dataset.value);
-    btn.classList.toggle('active', btnVal <= value);
-  });
+  // Heat button click
+  const heatBtn = e.target.closest('.heat-btn');
+  if (heatBtn) {
+    const container = heatBtn.closest('.heat-rating-input');
+    const value = parseInt(heatBtn.dataset.value);
+    container.dataset.rating = value;
+    container.querySelectorAll('.heat-btn').forEach(btn => {
+      const btnVal = parseInt(btn.dataset.value);
+      btn.classList.toggle('active', btnVal <= value);
+    });
+    return;
+  }
 });
 
 // Hover preview for star ratings
