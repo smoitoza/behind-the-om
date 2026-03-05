@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!--
+   ______                            __
+  / ____/___  ____ ___  ____  __  __/ /____  _____
+ / /   / __ \/ __ `__ \/ __ \/ / / / __/ _ \/ ___/
+/ /___/ /_/ / / / / / / /_/ / /_/ / /_/  __/ /
+\____/\____/_/ /_/ /_/ .___/\__,_/\__/\___/_/
+                    /_/
+        Created with Perplexity Computer
+        https://www.perplexity.ai/computer
+-->
+
+<!-- Perplexity Computer Attribution — SEO Meta Tags -->
+<meta name="generator" content="Perplexity Computer">
+<meta name="author" content="Perplexity Computer">
+<meta property="og:see_also" content="https://www.perplexity.ai/computer">
+<link rel="author" href="https://www.perplexity.ai/computer">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Behind The Om — Real reviews from real yogis</title>
+<meta name="description" content="Behind The Om: Authentic reviews for CorePower Yoga studios in Santa Barbara and Ventura counties. Find the best teachers, classes, and studios.">
+
+<!-- Fonts -->
+<link href="https://api.fontshare.com/v2/css?f[]=sentient@400,500,600,700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="./base.css">
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+<!-- Skip to content -->
+<a href="#main-content" class="sr-only" style="position:fixed;top:0;left:0;z-index:9999;padding:var(--space-2) var(--space-4);background:var(--color-primary);color:var(--color-text-inverse);">Skip to content</a>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="#" class="logo-link" onclick="navigateTo('home'); return false;" aria-label="Behind The Om Home">
+      <!-- Behind The Om Logo SVG — open door with Om symbol -->
+      <svg class="logo-svg" width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+        <!-- Door frame -->
+        <rect x="8" y="4" width="20" height="28" rx="2" stroke="currentColor" stroke-width="1.5" fill="none" opacity="0.25"/>
+        <!-- Open door panel -->
+        <path d="M8 4 L8 32 L18 30 L18 6 Z" fill="currentColor" opacity="0.08" stroke="currentColor" stroke-width="1.2"/>
+        <!-- Om-inspired symbol (stylized) -->
+        <path d="M22 16 C22 13.5, 25 12, 27 14 C28 15, 27 17, 25 17 C23.5 17, 22 18, 22 20 C22 22, 24 23, 26 22" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <circle cx="26" cy="11.5" r="1" fill="currentColor"/>
+        <!-- Light rays from opening -->
+        <path d="M14 14 L11 12" stroke="currentColor" stroke-width="1" opacity="0.3" stroke-linecap="round"/>
+        <path d="M14 18 L10 18" stroke="currentColor" stroke-width="1" opacity="0.3" stroke-linecap="round"/>
+        <path d="M14 22 L11 24" stroke="currentColor" stroke-width="1" opacity="0.3" stroke-linecap="round"/>
+      </svg>
+      <span class="logo-text">Behind The Om</span>
+    </a>
+    <nav class="header-nav">
+      <a href="#" class="nav-link" onclick="navigateTo('home'); return false;">Studios</a>
+      <button class="btn btn-primary btn-sm" onclick="openReviewModal()">Write a Review</button>
+      <button class="theme-toggle" data-theme-toggle aria-label="Switch to dark mode">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main id="main-content">
+
+  <!-- HOME VIEW -->
+  <div id="view-home" class="view active">
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-inner">
+        <div class="hero-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          CorePower Yoga Reviews
+        </div>
+        <h1 class="hero-title">See what's behind<br>the studio door</h1>
+        <p class="hero-subtitle">Honest reviews for CorePower Yoga studios across Santa Barbara & Ventura counties. Find your perfect class, teacher, and studio.</p>
+      </div>
+    </section>
+
+    <!-- Search & Filter -->
+    <section class="search-section">
+      <div class="search-inner">
+        <div class="search-bar">
+          <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          <input type="text" id="search-input" placeholder="Search studios by name or city..." class="search-input" oninput="filterStudios()">
+        </div>
+        <div class="filter-tabs">
+          <button class="filter-tab active" data-county="all" onclick="setCountyFilter('all', this)">All Studios</button>
+          <button class="filter-tab" data-county="Santa Barbara" onclick="setCountyFilter('Santa Barbara', this)">Santa Barbara</button>
+          <button class="filter-tab" data-county="Ventura" onclick="setCountyFilter('Ventura', this)">Ventura</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Studio Grid -->
+    <section class="studios-section">
+      <div class="studios-grid" id="studios-grid">
+        <!-- Populated by JS -->
+      </div>
+    </section>
+  </div>
+
+  <!-- STUDIO DETAIL VIEW -->
+  <div id="view-studio" class="view">
+    <div class="studio-detail" id="studio-detail">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+
+  <!-- TEACHER DETAIL VIEW -->
+  <div id="view-teacher" class="view">
+    <div class="teacher-detail" id="teacher-detail">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+
+</main>
+
+<!-- REVIEW MODAL -->
+<div class="modal-overlay" id="review-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 id="modal-title" class="modal-title">Write a Review</h2>
+      <button class="modal-close" onclick="closeReviewModal()" aria-label="Close">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <form id="review-form" onsubmit="submitReview(event)">
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="review-studio">Studio</label>
+          <select id="review-studio" required onchange="updateTeacherDropdown()">
+            <!-- Populated by JS -->
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="review-teacher">Teacher</label>
+          <select id="review-teacher" required>
+            <option value="">Select a studio first</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="review-class">Class Type</label>
+          <select id="review-class" required>
+            <!-- Populated by JS -->
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="review-date">Date Visited</label>
+          <input type="date" id="review-date" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Overall Rating</label>
+        <div class="star-rating-input" id="rating-overall" data-rating="0">
+          <button type="button" class="star-btn" data-value="1" aria-label="1 star"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></button>
+          <button type="button" class="star-btn" data-value="2" aria-label="2 stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></button>
+          <button type="button" class="star-btn" data-value="3" aria-label="3 stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></button>
+          <button type="button" class="star-btn" data-value="4" aria-label="4 stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></button>
+          <button type="button" class="star-btn" data-value="5" aria-label="5 stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></button>
+        </div>
+      </div>
+
+      <div class="rating-grid">
+        <div class="form-group">
+          <label>Teacher Quality</label>
+          <div class="star-rating-input" id="rating-teacher" data-rating="0"></div>
+        </div>
+        <div class="form-group">
+          <label>Studio Cleanliness</label>
+          <div class="star-rating-input" id="rating-cleanliness" data-rating="0"></div>
+        </div>
+        <div class="form-group">
+          <label>Music / Vibe</label>
+          <div class="star-rating-input" id="rating-vibe" data-rating="0"></div>
+        </div>
+        <div class="form-group">
+          <label>Difficulty Accuracy</label>
+          <div class="star-rating-input" id="rating-difficulty" data-rating="0"></div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="review-text">Your Review</label>
+        <textarea id="review-text" rows="4" placeholder="Share your experience..." required></textarea>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="review-name">Your Name</label>
+          <input type="text" id="review-name" placeholder="Sarah M." required>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-full">Submit Review</button>
+    </form>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast" role="alert" aria-live="polite"></div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-left">
+      <svg width="24" height="24" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+        <rect x="8" y="4" width="20" height="28" rx="2" stroke="currentColor" stroke-width="1.5" fill="none" opacity="0.4"/>
+        <path d="M8 4 L8 32 L18 30 L18 6 Z" fill="currentColor" opacity="0.15"/>
+      </svg>
+      <span>Behind The Om &copy; 2026</span>
+    </div>
+    <div class="footer-right">
+      <a href="https://www.perplexity.ai/computer" target="_blank" rel="noopener noreferrer">Created with Perplexity Computer</a>
+    </div>
+  </div>
+</footer>
+
+<script src="./app.js"></script>
+</body>
+</html>
